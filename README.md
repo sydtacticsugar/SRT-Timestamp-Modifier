@@ -19,7 +19,7 @@ Subtitle Time Adjuster is a simple Python script that helps you adjust the timin
 1. Clone this repository to your local machine:
 
     ```bash
-    git clone https://github.com/yourusername/subtitle-time-adjuster.git
+    git clone [https://github.com/yourusername/subtitle-time-adjuster.git](https://github.com/tepelekas/SRT-Timestamp-Modifier.git)
     ```
 
 2. Navigate to the project directory:
