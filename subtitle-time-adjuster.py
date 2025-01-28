@@ -1,11 +1,14 @@
 import re
+import argparse
+import sys
+import pathlib
 
 def adjust_subtitle_time(file_path, seconds_to_add, direction):
     """
     Adjusts the timing of a subtitle file by adding or subtracting a specified number of seconds to each timestamp.
 
     Args:
-        file_path (str): Path to the subtitle file (e.g., SRT, VTT, or ASS)
+        file_path (str): Path to the SRT subtitle file
         seconds_to_add (int): Number of seconds to add or subtract to each timestamp
         direction (str): Direction of time change (either "forward" or "backward")
     """
@@ -66,20 +69,22 @@ def adjust_timestamp(match, seconds_to_add, direction):
 
     return f'{new_start_time} --> {new_end_time}'
 
-def main():
-    print("Please enter the path to your SRT file:")
-    file_path = input()
-
+def filecheck(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             content = file.read()
         print("SRT file loaded successfully!")
     except FileNotFoundError:
         print("Error: SRT file not found. Please check the file path and try again.")
-        return
+        sys.exit(1) 
     except UnicodeDecodeError:
         print("Error: Unable to decode file. Please try specifying a different encoding.")
-        return
+        sys.exit(1)
+
+def main():
+    print("Please enter the path to your SRT file:")
+    file_path = input()
+    filecheck(file_path)
 
     print("Do you want to adjust the timing forward or backward?")
     direction = input().lower()
