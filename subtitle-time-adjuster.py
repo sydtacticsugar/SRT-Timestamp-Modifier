@@ -101,18 +101,31 @@ def filecheck(file_path):
         sys.exit(1)
 
 def main():
-    print("Please enter the path to your SRT file:")
-    file_path = input()
-    filecheck(file_path)
+    file_path = args.file
+    seconds_to_add = args.seconds
+    direction = args.direction
 
-    print("Do you want to adjust the timing forward or backward?")
-    direction = input().lower()
-    while direction not in ["forward", "backward"]:
-        print("Invalid input. Please enter 'forward' or 'backward':")
+    # if no args provided - run in interactive mode
+    if len(sys.argv) == 1:
+        print("Please enter the path to your SRT file:")
+        file_path = input()
+        filecheck(file_path)
+
+        print("Do you want to adjust the timing forward or backward?")
         direction = input().lower()
+        while direction not in ["forward", "backward"]:
+            print("Invalid input. Please enter 'forward' or 'backward':")
+            direction = input().lower()
 
-    print("How many seconds do you want to adjust the timing?")
-    seconds_to_add = int(input())
+        print("How many seconds do you want to adjust the timing?")
+        seconds_to_add = int(input())
+    elif file_path is not None and seconds_to_add is not None and direction is not None:
+        filecheck(file_path)
+    else:
+        print("""Missing argument(s).
+        usage: subtitle-time-adjuster.py [-f FILE] [-s SECONDS] [-d DIRECTION]""")
+        sys.exit(1)
+
 
     try:
         adjust_subtitle_time(file_path, seconds_to_add, direction)
