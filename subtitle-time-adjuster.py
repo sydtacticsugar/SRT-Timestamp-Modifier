@@ -8,7 +8,7 @@ def arguments():
                 usage="""%(prog)s [-f FILE] [-s SECONDS] [-d DIRECTION]""", add_help=False)
     parser.add_argument('-f', '--file',
                     required=False, default=None, type=pathlib.Path,
-                    help="""Path to the subtitle file (e.g., SRT, VTT, or ASS)""")
+                    help="""Path to the SRT subtitle file""")
     parser.add_argument('-s', '--seconds',
                     required=False, default=None, type=int,
                     help="""Number of seconds to add or subtract to each timestamp""")
