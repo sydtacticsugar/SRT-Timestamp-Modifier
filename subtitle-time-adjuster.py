@@ -3,6 +3,25 @@ import argparse
 import sys
 import pathlib
 
+def arguments():
+    parser = argparse.ArgumentParser(description="""Adjust the timing of a subtitle file by adding or subtracting a specified number of seconds to each timestamp.""",
+                usage="""%(prog)s [-f FILE] [-s SECONDS] [-d DIRECTION]""", add_help=False)
+    parser.add_argument('-f', '--file',
+                    required=False, default=None, type=pathlib.Path,
+                    help="""Path to the subtitle file (e.g., SRT, VTT, or ASS)""")
+    parser.add_argument('-s', '--seconds',
+                    required=False, default=None, type=int,
+                    help="""Number of seconds to add or subtract to each timestamp""")
+    parser.add_argument('-d', '--direction',
+                    required=False, default=None, choices=['forward', 'forwards', 'backward', 'backwards'], type=str.lower,
+                    help="""Direction of time change (either "forward"/"forwards" or "backward"/"backwards")""")
+    parser.add_argument('-v', '--version', action='version',
+                    version='%(prog)s 1.0', help="""Show program's version number and exit.""")
+    parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS,
+                    help="""Show this help message and exit.""")
+    return parser.parse_args()
+args = arguments()
+
 def adjust_subtitle_time(file_path, seconds_to_add, direction):
     """
     Adjusts the timing of a subtitle file by adding or subtracting a specified number of seconds to each timestamp.
