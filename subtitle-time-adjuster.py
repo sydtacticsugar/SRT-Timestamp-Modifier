@@ -58,10 +58,10 @@ def adjust_timestamp(match, seconds_to_add, direction):
     end_hours, end_minutes, end_seconds, end_milliseconds = map(int, end_time.replace(':', ',').split(','))
 
     # Calculate the new timestamp values
-    if direction == "forward":
+    if direction == "forward" or direction == "forwards":
         new_start_seconds = start_seconds + seconds_to_add
         new_end_seconds = end_seconds + seconds_to_add
-    elif direction == "backward":
+    elif direction == "backward" or direction == "backwards":
         new_start_seconds = start_seconds - seconds_to_add
         new_end_seconds = end_seconds - seconds_to_add
 
@@ -101,6 +101,7 @@ def filecheck(file_path):
         sys.exit(1)
 
 def main():
+    # assign values based on args (defaults are all set to "None")
     file_path = args.file
     seconds_to_add = args.seconds
     direction = args.direction
@@ -113,12 +114,13 @@ def main():
 
         print("Do you want to adjust the timing forward or backward?")
         direction = input().lower()
-        while direction not in ["forward", "backward"]:
-            print("Invalid input. Please enter 'forward' or 'backward':")
+        while direction not in ["forward", "forwards", "backward", "backwards"]:
+            print("Invalid input. Please enter 'forward'/'forwards' or 'backward'/'backwards':")
             direction = input().lower()
 
         print("How many seconds do you want to adjust the timing?")
         seconds_to_add = int(input())
+    #if all args present - run without further interaction
     elif file_path is not None and seconds_to_add is not None and direction is not None:
         filecheck(file_path)
     else:
@@ -126,7 +128,7 @@ def main():
         usage: subtitle-time-adjuster.py [-f FILE] [-s SECONDS] [-d DIRECTION]""")
         sys.exit(1)
 
-
+    # adjust based on interactive input or args
     try:
         adjust_subtitle_time(file_path, seconds_to_add, direction)
         print(f"Timing adjustment successful! Your SRT file has been adjusted by {seconds_to_add} seconds {'forward' if direction == 'forward' else 'backward'}.")
