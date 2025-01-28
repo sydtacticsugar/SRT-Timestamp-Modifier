@@ -2,6 +2,8 @@ import re
 import argparse
 import sys
 import pathlib
+import glob
+import os
 
 def arguments():
     parser = argparse.ArgumentParser(description="""Adjust the timing of a subtitle file by adding or subtracting a specified number of seconds to each timestamp.""",
@@ -95,13 +97,20 @@ def filecheck(file_path):
         print("SRT file loaded successfully!")
     except FileNotFoundError:
         print("Error: SRT file not found. Please check the file path and try again.")
-        sys.exit(1) 
     except UnicodeDecodeError:
         print("Error: Unable to decode file. Please try specifying a different encoding.")
-        sys.exit(1)
+
+# check if file_path is a single file or a glob 
+def fileOrGlob(file_path):
+    if os.path.isfile(file_path) == True:
+        return 1
+    else:
+        globby = glob.glob(str(file_path))
+        return globby
+        
 
 def main():
-    # assign values based on args (defaults are all set to "None")
+    # assign values based on args - defaults are all set to "None"
     file_path = args.file
     seconds_to_add = args.seconds
     direction = args.direction
@@ -110,7 +119,6 @@ def main():
     if len(sys.argv) == 1:
         print("Please enter the path to your SRT file:")
         file_path = input()
-        filecheck(file_path)
 
         print("Do you want to adjust the timing forward or backward?")
         direction = input().lower()
@@ -122,18 +130,29 @@ def main():
         seconds_to_add = int(input())
     #if all args present - run without further interaction
     elif file_path is not None and seconds_to_add is not None and direction is not None:
-        filecheck(file_path)
+        pass
     else:
         print("""Missing argument(s).
         usage: subtitle-time-adjuster.py [-f FILE] [-s SECONDS] [-d DIRECTION]""")
         sys.exit(1)
 
-    # adjust based on interactive input or args
-    try:
-        adjust_subtitle_time(file_path, seconds_to_add, direction)
-        print(f"Timing adjustment successful! Your SRT file has been adjusted by {seconds_to_add} seconds {'forward' if direction == 'forward' else 'backward'}.")
-    except Exception as e:
-        print(f"Error: Timing adjustment failed. {str(e)}")
+    globby = fileOrGlob(file_path)
+    # if glob instead of single file - iterate over the list of files
+    if globby and globby != 1:
+        for file in globby:
+            try:
+                adjust_subtitle_time(file, seconds_to_add, direction)
+            except Exception as e:
+                print(f"Error: Timing adjustment failed. {str(e)}")
+        print(f"Timing adjustment successful! Your SRT files have been adjusted by {seconds_to_add} seconds {'forward' if direction == 'forward' else 'backward'}.")
+    else:
+        filecheck(file_path)
+        try:
+            adjust_subtitle_time(file_path, seconds_to_add, direction)
+            print(f"Timing adjustment successful! Your SRT file has been adjusted by {seconds_to_add} seconds {'forward' if direction == 'forward' else 'backward'}.")
+        except Exception as e:
+            print(f"Error: Timing adjustment failed. {str(e)}")
+
 
 if __name__ == "__main__":
     main()

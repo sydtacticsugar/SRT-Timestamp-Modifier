@@ -44,7 +44,6 @@ python subtitle-time-adjuster.py -f FILE -d DIRECTION -s SECONDS
 
 ##### Options
 ```
-options:
   -f FILE, --file FILE  Path to the SRT subtitle file
   -s SECONDS, --seconds SECONDS
                         Number of seconds to add or subtract to each timestamp
