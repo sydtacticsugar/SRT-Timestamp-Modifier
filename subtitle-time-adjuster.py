@@ -18,7 +18,7 @@ def arguments():
                     required=False, default=None, choices=['forward', 'forwards', 'backward', 'backwards'], type=str.lower,
                     help="""Direction of time change (either "forward"/"forwards" or "backward"/"backwards")""")
     parser.add_argument('-v', '--version', action='version',
-                    version='%(prog)s 1.0', help="""Show program's version number and exit.""")
+                    version='%(prog)s 2.0', help="""Show program's version number and exit.""")
     parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS,
                     help="""Show this help message and exit.""")
     return parser.parse_args()
@@ -100,13 +100,13 @@ def filecheck(file_path):
     except UnicodeDecodeError:
         print("Error: Unable to decode file. Please try specifying a different encoding.")
 
-# check if file_path is a single file or a glob 
+# check if file_path is a single file or a glob
+# returns [] if file(s) not found
 def fileOrGlob(file_path):
     if os.path.isfile(file_path) == True:
         return 1
     else:
-        globby = glob.glob(str(file_path))
-        return globby
+        return glob.glob(str(file_path))
         
 
 def main():
