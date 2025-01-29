@@ -79,7 +79,7 @@ python subtitle-time-adjuster.py -f FILE -d DIRECTION -s SECONDS
 Assume you have an `.srt` file located at `/movies/subtitles.srt` that is ahead by 5 seconds. You can correct the timing by running the script as follows:
 
 ```bash
-python subtitle-time-adjuster.py -f /movies/subtitles.srt -d backward -s 5
+python subtitle-time-adjuster.py -f "/movies/subtitles.srt" -d backward -s 5
 ```
 
 #### Wildcard usage
@@ -87,8 +87,40 @@ python subtitle-time-adjuster.py -f /movies/subtitles.srt -d backward -s 5
 Let's say - like me, when I began modifying this script - you have nearly 100 `.srt` files that are all ahead by 4 seconds. You can batch process these like so:
 
 ##### Single command
+If they're all in the same directory:
+
+```
+movies/
+├── file1.srt
+├── file2.srt
+├── file3.srt
+├── fileA.srt
+├── fileB.srt
+└── fileC.srt
+```
+
+You can run this command to adjust all 6 `.srt` files at once:
 ```bash
-python subtitle-time-adjuster.py -f /movies/*.srt -d backward -s 4
+python subtitle-time-adjuster.py -f "/movies/*.srt" -d backward -s 4
+```
+
+If they are in different subdirectories:
+
+```
+movies/
+├── subDir1/
+│   ├── file1.srt
+│   ├── file2.srt
+│   └── file3.srt
+└── subDir2/
+    ├── fileA.srt
+    ├── fileB.srt
+    └── fileC.srt
+```
+
+You can run this command to adjust all 6 `.srt` files at once:
+```bash
+python subtitle-time-adjuster.py -f "/movies/**/*.srt" -d backward -s 4
 ```
 
 ##### Interactive mode
