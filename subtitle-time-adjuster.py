@@ -106,7 +106,7 @@ def fileOrGlob(file_path):
     if os.path.isfile(file_path) == True:
         return 1
     else:
-        return glob.glob(str(file_path))
+        return glob.glob(str(file_path), recursive=True)
         
 
 def main():
