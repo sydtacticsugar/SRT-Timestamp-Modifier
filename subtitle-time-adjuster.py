@@ -117,7 +117,7 @@ def main():
 
     # if no args provided - run in interactive mode
     if len(sys.argv) == 1:
-        print("Please enter the path to your SRT file:")
+        print("Please enter the path to your SRT file(s):")
         file_path = input()
 
         print("Do you want to adjust the timing forward or backward?")
