@@ -125,10 +125,12 @@ python subtitle-time-adjuster.py -f "/movies/**/*.srt" -d backward -s 4
 
 ##### Interactive mode
 ```
-Please enter the path to your SRT file:
+Please enter the path to your SRT file(s):
 movies/*.srt
 Do you want to adjust the timing forward or backward?
 backward
 How many seconds do you want to adjust the timing?
 4
 ```
+
+**Please note:** Interactive mode will automatically enclose your path input in quoation marks - do not try entering `"/movies/*.srt"` in this mode, as it will result in an error.
